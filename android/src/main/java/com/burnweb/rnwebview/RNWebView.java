@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 
 import android.net.Uri;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
+import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -60,6 +62,11 @@ class RNWebView extends WebView implements LifecycleEventListener {
 
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), view.getTitle(), true, url, view.canGoBack(), view.canGoForward()));
+        }
+        
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed(); // Ignore SSL certificate errors
         }
     }
 
