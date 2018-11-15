@@ -63,11 +63,6 @@ class RNWebView extends WebView implements LifecycleEventListener {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mEventDispatcher.dispatchEvent(new NavigationStateChangeEvent(getId(), SystemClock.nanoTime(), view.getTitle(), true, url, view.canGoBack(), view.canGoForward()));
         }
-        
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed(); // Ignore SSL certificate errors
-        }
     }
 
     protected class CustomWebChromeClient extends WebChromeClient {
